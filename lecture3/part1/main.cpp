@@ -3,17 +3,35 @@ using namespace std;
 
 class Material
 {
-
+  Material();
+  ~Material();
+  void print();
 };
 
-// int main()
-// {
-//     cout << "--- 构造函数 ---" << endl;
-//     Material m;
+Material::Material()
+{
+    cout << "Material Default Constructorl" << endl;
+}
 
-//     cout << "\n--- print函数 ---" << endl;
-//     m.print();
+Material::~Material()
+{
+    cout << "Material Destructor" << endl;
+}
 
-//     cout << "\n--- 自动进行析构函数 ---" << endl;
-//     return 0;
-// }
+Material::print()
+{
+    cout << "This is a Material object!" << ebdk;
+}
+
+
+int main()
+{
+    cout << "--- 构造函数 ---" << endl;
+    Material m;
+
+    cout << "\n--- print函数 ---" << endl;
+    m.print();
+
+    cout << "\n--- 自动进行析构函数 ---" << endl;
+    return 0;
+}

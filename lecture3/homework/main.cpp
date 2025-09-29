@@ -5,23 +5,37 @@
 
 int main()
 {
-    // 初始化相机、yolo类
+
+    myCamera cam;
+
+    YOLO yolo("yolo_model.onnx", 0.5); 
+
+    cv::Mat img;
     
-    // while (1) {
-        // 调用相机读取图像
+    while (true)
+    {
+
+        img = cam.read();
 
 
-        // 调用yolo识别装甲板
+        std::vector<cv::Point> armor_centers = yolo.detect(img);
 
 
+        for (const auto &pt : armor_centers) {
+            tools::draw_point(img, pt, {0, 0, 255}, 5);
+        }
 
-        // 显示图像
-        // cv::resize(img, img , cv::Size(640, 480));
-        // cv::imshow("img", img);
-        // if (cv::waitKey(0) == 'q') {
-        //     // break;
-        // }
-    // }
+        cv::Mat disp;
+        cv::resize(img, disp, cv::Size(640, 480));
+        cv::imshow("Camera & YOLO", disp);
+
+
+        char key = static_cast<char>(cv::waitKey(1));
+        if (key == 'q' || key == 27) {
+            break;
+        }
+    }
+
 
     return 0;
 }
