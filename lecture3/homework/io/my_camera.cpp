@@ -9,45 +9,24 @@ myCamera::myCamera()
     int ret;
     ret = MV_CC_EnumDevices(MV_USB_DEVICE, &_device_list_);
 
-   if (ret != MV_OK) 
-   {
-      return -1;
-    }
-  
-    if (device_list.nDeviceNum == 0) 
-    {
-      return -1;
-    }
-  
 
     ret = MV_CC_CreateHandle(&_handle_, _device_list_.pDeviceInfo[0]);
-    if (ret != MV_OK) 
-    {
-        return -1;
-    }
+
 
     ret = MV_CC_OpenDevice(_handle_);
-    if (ret != MV_OK) 
-    {
-       return -1;
-    }
+
 
     MV_CC_SetEnumValue(_handle_, "BalanceWhiteAuto", MV_BALANCEWHITE_AUTO_CONTINUOUS);
     MV_CC_SetEnumValue(_handle_, "ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
     MV_CC_SetEnumValue(_handle_, "GainAuto", MV_GAIN_MODE_OFF);
-    MV_CC_SetFloatValue(_handle_, "ExposureTime", 10000);
+    MV_CC_SetFloatValue(_handle_, "ExposureTime", 2000);
     MV_CC_SetFloatValue(_handle_, "Gain", 20);
     MV_CC_SetFrameRate(_handle_, 60);
 
     // 读取一帧图像
     ret = MV_CC_StartGrabbing(_handle_);
-    if (ret != MV_OK) 
-    {
-        return -1;
-    }
-}
-
-
+   
+ }
 
 myCamera::~myCamera() 
 {
@@ -98,10 +77,6 @@ cv::Mat myCamera::read()
     MV_FRAME_OUT raw;
     unsigned int nMsec = 100;
     int ret = MV_CC_GetImageBuffer(_handle_, &raw, nMsec);
-    if (ret != MV_OK)
-     {
-        return -1;
-    }
 
     cv::Mat img = _transfer(raw);
 

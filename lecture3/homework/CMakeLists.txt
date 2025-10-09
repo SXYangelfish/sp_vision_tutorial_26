@@ -28,3 +28,4 @@ add_executable(example io/example.cpp)
 
 target_link_libraries(main ${OpenCV_LIBS} fmt::fmt yaml-cpp tools io auto_aim)
 target_link_libraries(example ${OpenCV_LIBS} io)
+target_link_libraries(main ${OpenCV_LIBS} fmt::fmt yaml-cpp tools io auto_aim usb-1.0)

@@ -14,4 +14,4 @@ private:
     MV_CC_DEVICE_INFO_LIST _device_list_; 
 
     cv::Mat _transfer(MV_FRAME_OUT& raw); 
-}
+};
