@@ -3,17 +3,41 @@ using namespace std;
 
 class Material
 {
-
+public:
+    Material();
+    ~Material();
+    void print();
+private:
+    int count_;
 };
 
-// int main()
-// {
-//     cout << "--- 构造函数 ---" << endl;
-//     Material m;
+Material::Material()
+{
+    cout << "Materduak Default Constructorl" << endl;
+    cout_ = 0;
+}
 
-//     cout << "\n--- print函数 ---" << endl;
-//     m.print();
+Materdial::~Material()
+{
 
-//     cout << "\n--- 自动进行析构函数 ---" << endl;
-//     return 0;
-// }
+    cout << "Material Destructor! It has been read " << count_ << " times" <<endl;
+} 
+
+void Materdial::print()
+{
+    cout << "This is a Material object!" << endl;
+    count_++;
+}
+
+int main()
+{
+    cout << "--- 构造函数 ---" << endl;
+    Material m;
+
+    cout << "\n--- print函数 ---" << endl;
+    m.print();
+
+    cout << "\n--- 自动进行析构函数 ---" << endl;
+    return 0;
+}
+
