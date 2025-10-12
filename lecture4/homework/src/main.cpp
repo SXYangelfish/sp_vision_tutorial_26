@@ -8,7 +8,7 @@
 
 int main()
 {
-    io::Camera camera(2.5,16.9,"2bdf:0001");
+    io::Camera camera (2.5,16.9,"2bdf:0001");
     std::chrono::steady_clock::time_point timestamp;
 
     tools::Plotter plotter;
@@ -17,7 +17,7 @@ int main()
 
     while(true){
         cv::Mat img;
-        camera.read(img ,timestamp);
+        camera.read(img,timestamp);
         auto fanblades = detector.detect(img);
 
         cv::Mat display_img = solver.visualizeResults(img,fanblades);
@@ -26,27 +26,55 @@ int main()
             break;
         }
 
-
         // plotjuggler
         nlohmann::json data;
         if(fanblades.size())
         {
-            data["fanblade_point"] = fanblades[0].points.size();
 
+            cv::Mat rvec, tvec;
+    
+            //solvePnP
+            if (fanblades.size() > 0) {
+            solver.solvePnP(fanblades [0], rvec, tvec);  // 使用第一个检测到的叶片
+        
+            data["pose_x"] = tvec.at<double>(0);
+            data["pose_y"] = tvec.at<double>(1);
+            data["pose_z"] = tvec.at<double>(2); 
+        
+            // 欧拉角
+            cv::Mat rotation_matrix;
+            cv::Rodrigues(rvec, rotation_matrix);
+        
+            double pitch = atan2(-rotation_matrix.at<double>(2, 0), 
+                            sqrt(pow(rotation_matrix.at<double>(2, 1), 2) + 
+                                    pow(rotation_matrix.at<double>(2, 2), 2))) * 180 / CV_PI;
+            double yaw = atan2(rotation_matrix.at<double>(1, 0), 
+                            rotation_matrix.at<double>(0, 0)) * 180 / CV_PI;
+            double roll = atan2(rotation_matrix.at<double>(2, 1), 
+                            rotation_matrix.at<double>(2, 2)) * 180 / CV_PI;
+        
+            data["pitch"] = pitch;
+            data["yaw"] = yaw;
+            data["roll"] = roll;
 
-             cv::Point2f rotation_center = solver.calculateRotationCenter(fanblades  [0]);
+            cv::Point3f rotation_center = solver.calculateRotationCenter(fanblades); 
             data["rotation_center_x"] = rotation_center.x;
             data["rotation_center_y"] = rotation_center.y;
-            
-            data["fanblade_center_x"] = fanblades  [0].center.x;
-            data["fanblade_center_y"] = fanblades  [0].center.y;
-            
-            data["fanblade_type"] = static_cast<int>(fanblades  [0].type);
-            
-            auto now = std::chrono::steady_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                now.time_since_epoch());
-            data["timestamp_ms"] = duration.count();
+            data["rotation_center_z"] = rotation_center.z;
+            } 
+        else {
+        data["pose_x"] = 0.0;
+        data["pose_y"] = 0.0;
+        data["pose_z"] = 0.0;
+        data["pitch"] = 0.0;
+        data["yaw"] = 0.0;
+        data["roll"] = 0.0;
+        }
+    
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now.time_since_epoch());
+        data["timestamp_ms"] = duration.count();
         }
         else
         {
@@ -56,6 +84,12 @@ int main()
             data["fanblade_center_x"] = 0.0;
             data["fanblade_center_y"] = 0.0;
             data["fanblade_type"] = -1;
+            data["pose_x"] = 0.0;
+            data["pose_y"] = 0.0;
+            data["pose_z"] = 0.0;
+            data["pitch"] = 0.0;
+            data["yaw"] = 0.0;
+            data["roll"] = 0.0;
             data["timestamp_ms"] = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now().time_since_epoch()).count();
         }
