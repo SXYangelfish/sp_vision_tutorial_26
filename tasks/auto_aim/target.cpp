@@ -29,7 +29,11 @@ Target::Target(
   // w: angular velocity
   // l: r2 - r1
   // h: z2 - z1
-  Eigen::VectorXd x0{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};  //初始化预测量
+  Eigen::VectorXd x0{{armor.xyz_in_world [0], 0,
+                      armor.xyz_in_world [1], 0,
+                      armor.xyz_in_world [2], 0,
+                      armor.ypr_in_world [0], 0,
+                      radius, 0, 0}};  //初始化预测量
   Eigen::MatrixXd P0 = P0_dig.asDiagonal();
 
   // 防止夹角求和出现异常值

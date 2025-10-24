@@ -1,0 +1,4 @@
+Warning 2025-10-24 12:46:21:976  DevID:  Source-Line:libMvCameraControl.so(GenTLLoadLibraryEx.cpp-L0345)  ProcessName:task_1(3970)     Description:[LoadCtiLibInter]MV_GCSetConfigIntValue is NULL, CTI path[/opt/MVS/lib/64/libMvProducerVIR.so]
+Warning 2025-10-24 12:46:21:976  DevID:Virtual USB3 Vision  Source-Line:libMvCameraControl.so(GenTLManager.cpp-L1360)  ProcessName:task_1(3970)     Description:[OpenInterfaceInter]Get cti version failed, nRet[0x8000000c]
+Info    2025-10-24 12:46:21:976  DevID:Virtual USB3 Vision  Source-Line:libMvCameraControl.so(GenTLManager.cpp-L1362)  ProcessName:task_1(3970)     Description:[OpenInterfaceInter]Interface open success! VIRU3VCtiVersion[], VIRU3VDrvVersion[]
+Warning 2025-10-24 19:34:47:379  DevID:  Source-Line:libMvCameraControl.so(GenTLLoadLibraryEx.cpp-L0345)  ProcessName:task_2(3496)     Description:[LoadCtiLibInter]MV_GCSetConfigIntValue is NULL, CTI path[/opt/MVS/lib/64/libMvProducerVIR.so]
