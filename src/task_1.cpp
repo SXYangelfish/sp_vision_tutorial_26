@@ -70,7 +70,7 @@ int main(int argc, char * argv[])
         solver.solve(target_armor);
 
         double target_yaw = target_armor.ypd_in_world[0];
-        double target_pitch = target_armor.ypd_in_world[1];
+        double target_pitch = -target_armor.ypd_in_world[1];
 
         const double max_pitch = 20.0 * CV_PI / 180.0;
         const double min_pitch = -20.0 * CV_PI / 180.0;
