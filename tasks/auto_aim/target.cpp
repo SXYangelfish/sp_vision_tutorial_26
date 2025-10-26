@@ -77,8 +77,8 @@ void Target::predict(double dt)
   double v1, v2;
 
   // TODO: 根据实际情况，调整v1与v2
-  v1 = 1;  // 加速度方差
-  v2 = 1;  // 角加速度方差
+  v1 = 0;  // 加速度方差
+  v2 = 0.2;  // 角加速度方差
 
   auto a = dt * dt * dt * dt / 4;
   auto b = dt * dt * dt / 2;

@@ -17,6 +17,8 @@ namespace auto_aim
 class Target
 {
 public:
+  int armor_num() const { return armor_num_; }
+  int id() const { return last_id; }
   ArmorName name;
   ArmorType armor_type;
   ArmorPriority priority;
